@@ -24,3 +24,5 @@ print("zip path  : " + htmls[idx] + "\n")
 
 claim = parser.exemplary_claim(html)
 print ("exemplary claim :\n" + claim)
+
+zpg.close_archive(archive)

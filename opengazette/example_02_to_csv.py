@@ -2,10 +2,11 @@
 #
 
 import csv
+
 from zipped_patent_gazette import ZippedPatentGazette
 from parse_gazette_html import ParseGazetteHTML
 
-print('example 1 : get information\n')
+print('example 2 : to tsv\n')
 
 zpg = ZippedPatentGazette()
 path, name = '../data/',  'e-OG20240730_1524-5-subset-101_111.zip'
@@ -24,3 +25,5 @@ with open(name_csv, 'w', newline='') as file:
         number, title, inventors, assigned = parser.basic_information(html)
         writer.writerow([number, title, inventors, assigned])
     print()
+
+zpg.close_archive(archive)
