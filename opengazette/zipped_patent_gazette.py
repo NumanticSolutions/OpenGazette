@@ -44,6 +44,11 @@ class ZippedPatentGazette :
     item = archive.read(htmls[rn])
     return item.decode()
 
+  def extract_html(self, archive, html) -> str:
+    item = archive.read(html)
+    s = item.decode()
+    return s
+
   def quick_data(self, archive, htmls) :
     n = 0 
 
