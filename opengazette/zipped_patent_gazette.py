@@ -2,12 +2,14 @@
 #
 
 from zipfile import ZipFile
-
 from random import randrange
 
 
-class ZippedPatentGazette :
+class ZippedPatentGazette:
   """Process zipped patent gazettes"""
+
+  og_html = '/OG/html/'
+  dot_html, dot_gif = ( '.html', '.gif' )
 
   def open_archive(self, path, zip_name) :
     archive = ZipFile(path + zip_name)
@@ -49,42 +51,6 @@ class ZippedPatentGazette :
     s = item.decode()
     return s
 
-  def quick_data(self, archive, htmls) :
-    n = 0 
-
-    def splitter(s) :
-      s2 = s.split('<b>')
-      s3 = s2[1].split('</b>')
-      return s3[0].strip()
-
-    numbers, titles, inventors, assignees = ( [], [], [], [] )
-    for html in htmls :
-      item = archive.read(html)
-      s = item.decode()
-
-      if 'Not Issued' in s :
-        numbers.append("na")
-        titles.append("na")
-        inventors.append("na")
-        assignees.append("na")
-      else :
-        m = 0
-        lines = s.split('\n')
-        for line in lines :
-          if '"table_data"' in line :
-            if m == 0 :
-              numbers.append(splitter(line))
-            if m == 1 :
-              titles.append(splitter(line))
-            if m == 2 :
-              inventors.append(splitter(line))
-            if m == 3 :
-              assignees.append(splitter(line))
-            m += 1
-      n += 1
-
-    return numbers, titles, inventors, assignees
-
   def match_gifs_with_htmls(self, htmls, gifs) :
     fs = htmls.copy()
     fs.extend(gifs)
@@ -111,32 +77,7 @@ class ZippedPatentGazette :
           matched.append('na')
     return matched
 
-  def extract_claims(self, archive, htmls) :
-    claims = []
-    for html in htmls :
-      item = archive.read(html)
-      s = item.decode()
-
-      if 'Not Issued' in s :
-        claims.append("na")
-      else :
-        lines = s.split('\n')
-        claim = ''
-        for line in lines :
-          if "claim_text" in line :
-            s2 = line.replace('<div class="claim_text">', '')
-            s3 = s2.replace('<div class="claim_text_root">', '')
-            s4 = s3.replace('</div>', '').strip().replace('\n', '')
-            claim += s4
-        if len(claim) > 0 :
-          claims.append(claim)
-        else :
-          claims.append("na")
-
-    return claims
-
   def close_archive(self, archive) :
     archive.close()
 
-  og_html = '/OG/html/'
-  dot_html, dot_gif = ( '.html', '.gif' )
+
