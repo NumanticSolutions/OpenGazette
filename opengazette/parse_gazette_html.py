@@ -6,8 +6,9 @@ import textwrap as tw
 
 class ParseGazetteHTML:
     """parse patent gazette html"""
+
     def basic_information(self, html):
-        """ returns : number, title, assigned & inventors"""
+        """ returns : number, title, inventors & assigned"""
 
         soup = bs.BeautifulSoup(html, features="lxml")
         tds = soup.find_all(name="td", class_="table_data")
@@ -22,7 +23,8 @@ class ParseGazetteHTML:
             if "text-transform: uppercase" in str_td:
                 title = str_no_tags
             if "Assigned to " in str_td:
-                assigned = str_no_tags
+                a1 = str_no_tags.replace("Assigned to ", "")
+                assigned = a1
             if ("colspan=\"3\"" in str_td and
                     "Assigned to " not in str_td and
                     "Appl. No. " not in str_td and
@@ -34,8 +36,9 @@ class ParseGazetteHTML:
                     "Int. Cl. " not in str_td and
                     "subject to a terminal disclaimer" not in str_td):
                 inventors = str_no_tags
-        return number, title, assigned, inventors
-    def exemplary_claim(self, html):
+        return number, title, inventors, assigned
+
+    def exemplary_claim(self, html, is_wrapped=True):
         """returns : 80 char wrapped exemplary claim text"""
 
         soup = bs.BeautifulSoup(html, features="lxml")
@@ -47,7 +50,10 @@ class ParseGazetteHTML:
                 if child.string != None:
                     claim_str += child.string
             single_line = claim_str.replace("\n", " ")
-            wrapped = tw.wrap(single_line, 80)
-            for line in wrapped:
-                claim += line + "\n"
+            if is_wrapped:
+                wrapped = tw.wrap(single_line, 80)
+                for line in wrapped:
+                    claim += line + "\n"
+            else:
+                claim = single_line
         return claim
