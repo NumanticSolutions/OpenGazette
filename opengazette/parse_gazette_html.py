@@ -49,8 +49,18 @@ class ParseGazetteHTML:
                 assigned = a1
         return assigned
 
+    def find_filed_by(self, tds) -> str:
+        filed_by = "_na_"
+        for td in tds:
+            str_td = str(td)
+            str_no_tags = str(td.string)
+            if "Filed by " in str_td:
+                a1 = str_no_tags.replace("Filed by ", "")
+                filed_by = a1
+        return filed_by
+
     def basic_information(self, html, html_name):
-        """ returns : number, title, inventors & assigned"""
+        """ returns : number, title, inventors & filed_by"""
 
         number = self.to_number(html_name)
 
@@ -61,9 +71,9 @@ class ParseGazetteHTML:
         inventors = self.find_inventors(tables)
 
         tds = soup.find_all(name="td", class_="table_data")
-        assigned = self.find_assigned(tds)
+        filed_by = self.find_filed_by(tds)
 
-        return number, title, inventors, assigned
+        return number, title, inventors, filed_by
 
     def exemplary_claim(self, html, html_name, is_wrapped=True):
         """returns : number and exemplary claim, option to wrap or not"""
@@ -76,7 +86,7 @@ class ParseGazetteHTML:
             claim, claim_str = '', ''
             for child in claim_root[0].children:
                 if child.string != None:
-                    claim_str += child.string
+                    claim_str += child.text
             single_line = claim_str.replace("\n", " ")
             if is_wrapped:
                 wrapped = tw.wrap(single_line, 80)
@@ -87,18 +97,18 @@ class ParseGazetteHTML:
         return number, claim
 
     def more_information(self, html, html_name):
-        """ returns : number, full_number & filed"""
+        """ returns : number, full_number & assigned_to"""
 
         soup = bs.BeautifulSoup(html, features="lxml")
         tds = soup.find_all(name="td", class_="table_data")
         number = self.to_number(html_name)
-        full_number, filed = 'na', 'na'
+        full_number, assigned_to = 'na', 'na'
         for td in tds:
             str_td = str(td)
             str_no_tags = str(td.string)
             if "<td class=\"table_data\"><b>" in str_td:
                 full_number = str_no_tags
-            if "Filed by " in str_td:
-                filed = str_no_tags.replace("Filed by ", "")
+            if "Assigned to " in str_td:
+                assigned_to = str_no_tags.replace("Assigned to ", "")
 
-        return number, full_number, filed
+        return number, full_number, assigned_to

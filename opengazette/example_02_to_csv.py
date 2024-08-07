@@ -15,7 +15,7 @@ path_zip, name_zip = '../data/',  'e-OG20240730_1524-5-subset-101_111.zip'
 archive = zpg.open_archive(path_zip, name_zip)
 htmls, gifs = zpg.quick_list(archive)
 
-field = ["number", "title", "inventors", "assigned"]
+field = ["number", "title", "inventors", "filed_by"]
 
 # to uncompressed csv file
 #
@@ -27,8 +27,8 @@ with open(name_csv, 'w', newline='') as file:
     for i in range(len(htmls)):
         print(i, end=" ")
         html = zpg.extract_html(archive, htmls[i])
-        number, title, inventors, assigned = parser.basic_information(html, htmls[i])
-        writer.writerow([number, title, inventors, assigned])
+        number, title, inventors, filed_by = parser.basic_information(html, htmls[i])
+        writer.writerow([number, title, inventors, filed_by])
     print()
 
 # to zipped csv file
@@ -38,8 +38,8 @@ csv_write = csv.writer(sio)
 csv_write.writerow(field)
 for i in range(len(htmls)):
     html = zpg.extract_html(archive, htmls[i])
-    number, title, inventors, assigned = parser.basic_information(html, htmls[i])
-    csv_write.writerow([number, title, inventors, assigned])
+    number, title, inventors, filed_by = parser.basic_information(html, htmls[i])
+    csv_write.writerow([number, title, inventors, filed_by])
 
 with zipfile.ZipFile(name_csv+".zip", "w", zipfile.ZIP_DEFLATED, False) as zip_file:
     zip_file.writestr(name_csv, sio.getvalue().encode())

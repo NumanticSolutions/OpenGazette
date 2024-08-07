@@ -23,15 +23,15 @@ htmls, gifs = zpg.quick_list(archive)
 
 parser = ParseGazetteHTML()
 name_csv = name_zip[:-4] + ".csv"
-field = ["number", "title", "inventors", "assigned"]
+field = ["number", "title", "inventors", "filed_by"]
 
 sio = StringIO()
 csv_write = csv.writer(sio)
 csv_write.writerow(field)
 for i in range(len(htmls)):
     html = zpg.extract_html(archive, htmls[i])
-    number, title, inventors, assigned = parser.basic_information(html, htmls[i])
-    csv_write.writerow([number, title, inventors, assigned])
+    number, title, inventors, filed_by = parser.basic_information(html, htmls[i])
+    csv_write.writerow([number, title, inventors, filed_by])
     if i % 1000 == 0:
         print(i, end=" ", flush=True)
 print(i)
