@@ -7,19 +7,24 @@ import textwrap as tw
 class ParseGazetteHTML:
     """parse patent gazette html"""
 
-    def basic_information(self, html):
+    def to_number(self, html_name) -> str:
+        ts = html_name.split('/')
+        t1 = ts[-1].replace(".html", "")
+        if t1.startswith("US") and "-" in t1:
+            return t1.split('-')[0]
+        else:
+            return t1
+
+    def basic_information(self, html, html_name):
         """ returns : number, title, inventors & assigned"""
 
         soup = bs.BeautifulSoup(html, features="lxml")
         tds = soup.find_all(name="td", class_="table_data")
-        number, title, assigned, inventors = 'na', 'na', 'na', 'na'
+        number = self.to_number(html_name)
+        title, assigned, inventors = 'na', 'na', 'na'
         for td in tds:
             str_td = str(td)
             str_no_tags = str(td.string)
-            if "<td class=\"table_data\"><b>" in str_td:
-                n1 = str_no_tags
-                n2 = n1.replace(",", "")
-                number = n2.replace(" ", "")
             if "text-transform: uppercase" in str_td:
                 title = str_no_tags
             if "Assigned to " in str_td:
@@ -38,11 +43,12 @@ class ParseGazetteHTML:
                 inventors = str_no_tags
         return number, title, inventors, assigned
 
-    def exemplary_claim(self, html, is_wrapped=True):
-        """returns : 80 char wrapped exemplary claim text"""
+    def exemplary_claim(self, html, html_name, is_wrapped=True):
+        """returns : number and exemplary claim, option to wrap or not"""
 
         soup = bs.BeautifulSoup(html, features="lxml")
         claim_root = soup.find_all(name="div", class_=["claim_text_root"])
+        number = self.to_number(html_name)
         claim = 'na'
         if len(claim_root) == 1:
             claim, claim_str = '', ''
@@ -56,4 +62,21 @@ class ParseGazetteHTML:
                     claim += line + "\n"
             else:
                 claim = single_line
-        return claim
+        return number, claim
+
+    def more_information(self, html, html_name):
+        """ returns : number, full_number & filed"""
+
+        soup = bs.BeautifulSoup(html, features="lxml")
+        tds = soup.find_all(name="td", class_="table_data")
+        number = self.to_number(html_name)
+        full_number, filed = 'na', 'na'
+        for td in tds:
+            str_td = str(td)
+            str_no_tags = str(td.string)
+            if "<td class=\"table_data\"><b>" in str_td:
+                full_number = str_no_tags
+            if "Filed by " in str_td:
+                filed = str_no_tags.replace("Filed by ", "")
+
+        return number, full_number, filed

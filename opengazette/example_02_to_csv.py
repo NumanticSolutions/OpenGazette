@@ -9,8 +9,8 @@ from parse_gazette_html import ParseGazetteHTML
 print('example 2 : to tsv\n')
 
 zpg = ZippedPatentGazette()
-path, name = '../data/',  'e-OG20240730_1524-5-subset-101_111.zip'
-archive = zpg.open_archive(path, name)
+path_zip, name_zip = '../data/',  'e-OG20240730_1524-5-subset-101_111.zip'
+archive = zpg.open_archive(path_zip, name_zip)
 htmls, gifs = zpg.quick_list(archive)
 
 parser = ParseGazetteHTML()
@@ -22,7 +22,7 @@ with open(name_csv, 'w', newline='') as file:
     for i in range(len(htmls)):
         print(i, end=" ")
         html = zpg.extract_html(archive, htmls[i])
-        number, title, inventors, assigned = parser.basic_information(html)
+        number, title, inventors, assigned = parser.basic_information(html, htmls[i])
         writer.writerow([number, title, inventors, assigned])
     print()
 
