@@ -15,32 +15,54 @@ class ParseGazetteHTML:
         else:
             return t1
 
-    def basic_information(self, html, html_name):
-        """ returns : number, title, inventors & assigned"""
+    def find_title(self, tables) -> str:
+        title = "_na_"
+        if len(tables) > 0:
+            rows = tables[0].find_all('tr')
+            cols = rows[1].find_all('td')
+            if len(cols[0].text) > 0:
+                title = cols[0].text
+            else:
+                title = "_empty_"
+        return title
 
-        soup = bs.BeautifulSoup(html, features="lxml")
-        tds = soup.find_all(name="td", class_="table_data")
-        number = self.to_number(html_name)
-        title, assigned, inventors = 'na', 'na', 'na'
+    def find_inventors(self, tables) -> str:
+        inventors = "_na_"
+        if len(tables) > 0:
+            rows = tables[0].find_all('tr')
+            cols = rows[2].find_all('td')
+            if len(cols[0].text) > 0:
+                inventors = cols[0].text
+                if inventors.startswith("Latin Name"):
+                    inventors = "_empty_"
+            else:
+                inventors = "_empty_"
+        return inventors
+
+    def find_assigned(self, tds) -> str:
+        assigned = "_na_"
         for td in tds:
             str_td = str(td)
             str_no_tags = str(td.string)
-            if "text-transform: uppercase" in str_td:
-                title = str_no_tags
             if "Assigned to " in str_td:
                 a1 = str_no_tags.replace("Assigned to ", "")
                 assigned = a1
-            if ("colspan=\"3\"" in str_td and
-                    "Assigned to " not in str_td and
-                    "Appl. No. " not in str_td and
-                    "Filed by " not in str_td and
-                    "PCT Filed " not in str_td and
-                    "Claims priority" not in str_td and
-                    "Prior Publication " not in str_td and
-                    "align=" not in str_td and
-                    "Int. Cl. " not in str_td and
-                    "subject to a terminal disclaimer" not in str_td):
-                inventors = str_no_tags
+        return assigned
+
+    def basic_information(self, html, html_name):
+        """ returns : number, title, inventors & assigned"""
+
+        number = self.to_number(html_name)
+
+        soup = bs.BeautifulSoup(html, features="lxml")
+
+        tables = soup.find_all(name="table")
+        title = self.find_title(tables)
+        inventors = self.find_inventors(tables)
+
+        tds = soup.find_all(name="td", class_="table_data")
+        assigned = self.find_assigned(tds)
+
         return number, title, inventors, assigned
 
     def exemplary_claim(self, html, html_name, is_wrapped=True):
