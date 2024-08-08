@@ -20,7 +20,7 @@ field = ["number", "title", "inventors", "filed_by"]
 # to uncompressed csv file
 #
 parser = ParseGazetteHTML()
-name_csv = name_zip[:-4] + ".csv"
+name_csv = name_zip[:-4] + "-ntif.csv"
 with open(name_csv, 'w', newline='') as file:
     writer = csv.writer(file)
     writer.writerow(field)

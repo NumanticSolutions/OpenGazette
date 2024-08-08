@@ -7,6 +7,9 @@ import textwrap as tw
 class ParseGazetteHTML:
     """parse patent gazette html"""
 
+    na = '_na_'
+    empty = '_empty_'
+
     def to_number(self, html_name) -> str:
         ts = html_name.split('/')
         t1 = ts[-1].replace(".html", "")
@@ -16,31 +19,31 @@ class ParseGazetteHTML:
             return t1
 
     def find_title(self, tables) -> str:
-        title = "_na_"
+        title = self.na
         if len(tables) > 0:
             rows = tables[0].find_all('tr')
             cols = rows[1].find_all('td')
             if len(cols[0].text) > 0:
                 title = cols[0].text
             else:
-                title = "_empty_"
+                title = self.empty
         return title
 
     def find_inventors(self, tables) -> str:
-        inventors = "_na_"
+        inventors = self.na
         if len(tables) > 0:
             rows = tables[0].find_all('tr')
             cols = rows[2].find_all('td')
             if len(cols[0].text) > 0:
                 inventors = cols[0].text
                 if inventors.startswith("Latin Name"):
-                    inventors = "_empty_"
+                    inventors = self.empty
             else:
-                inventors = "_empty_"
+                inventors = self.empty
         return inventors
 
     def find_assigned(self, tds) -> str:
-        assigned = "_na_"
+        assigned = self.na
         for td in tds:
             str_td = str(td)
             str_no_tags = str(td.string)
@@ -50,7 +53,7 @@ class ParseGazetteHTML:
         return assigned
 
     def find_filed_by(self, tds) -> str:
-        filed_by = "_na_"
+        filed_by = self.na
         for td in tds:
             str_td = str(td)
             str_no_tags = str(td.string)
@@ -102,7 +105,7 @@ class ParseGazetteHTML:
         soup = bs.BeautifulSoup(html, features="lxml")
         tds = soup.find_all(name="td", class_="table_data")
         number = self.to_number(html_name)
-        full_number, assigned_to = 'na', 'na'
+        full_number, assigned_to = self.na, self.na
         for td in tds:
             str_td = str(td)
             str_no_tags = str(td.string)

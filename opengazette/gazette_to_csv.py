@@ -3,26 +3,35 @@
 
 #
 # * command line version :
-#     + input path and zip name
+#     + input path and patent gazette zip name
 #     + output is zipped csv
 #
 
 import csv
 from io import StringIO
 import zipfile
+import argparse
 
 from zipped_patent_gazette import ZippedPatentGazette
 from parse_gazette_html import ParseGazetteHTML
 
 print('gazette to zipped csv :\n')
 
+parser = argparse.ArgumentParser(description="Transform patent gazette to zipped CSV.")
+parser.add_argument("path", help="Path to patent gazette.", type=str)
+parser.add_argument("gazette", help="Zipped patent gazette to process.", type=str)
+args = parser.parse_args()
+
 zpg = ZippedPatentGazette()
-path_zip, name_zip = '/Users/numantic/data/bulk/',  'e-OG20240806_1525-1.zip'
+
+path_zip, name_zip = args.path, args.gazette
+# path_zip, name_zip = '/Users/numantic/data/bulk/',  'e-OG20240806_1525-1.zip'
+
 archive = zpg.open_archive(path_zip, name_zip)
 htmls, gifs = zpg.quick_list(archive)
 
 parser = ParseGazetteHTML()
-name_csv = name_zip[:-4] + ".csv"
+name_csv = name_zip[:-4] + "-ntif.csv"
 field = ["number", "title", "inventors", "filed_by"]
 
 sio = StringIO()
