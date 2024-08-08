@@ -84,7 +84,7 @@ class ParseGazetteHTML:
         soup = bs.BeautifulSoup(html, features="lxml")
         claim_root = soup.find_all(name="div", class_=["claim_text_root"], recursive=True)
         number = self.to_number(html_name)
-        claim = 'na'
+        claim = self.na
         if len(claim_root) == 1:
             claim, claim_str = '', ''
             for child in claim_root[0].recursiveChildGenerator():
