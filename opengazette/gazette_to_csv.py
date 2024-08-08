@@ -15,7 +15,7 @@ import argparse
 from zipped_patent_gazette import ZippedPatentGazette
 from parse_gazette_html import ParseGazetteHTML
 
-print('gazette to zipped csv :\n')
+print('patent gazette to zipped csv :\n')
 
 parser = argparse.ArgumentParser(description="Transform patent gazette to zipped CSV.")
 parser.add_argument("path", help="Path to patent gazette.", type=str)

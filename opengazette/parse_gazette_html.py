@@ -82,14 +82,15 @@ class ParseGazetteHTML:
         """returns : number and exemplary claim, option to wrap or not"""
 
         soup = bs.BeautifulSoup(html, features="lxml")
-        claim_root = soup.find_all(name="div", class_=["claim_text_root"])
+        claim_root = soup.find_all(name="div", class_=["claim_text_root"], recursive=True)
         number = self.to_number(html_name)
         claim = 'na'
         if len(claim_root) == 1:
             claim, claim_str = '', ''
-            for child in claim_root[0].children:
-                if child.string != None:
-                    claim_str += child.text
+            for child in claim_root[0].recursiveChildGenerator():
+                name = getattr(child, "name", None)
+                if (name is None) and (not child.isspace()):
+                    claim_str += child.text + " "
             single_line = claim_str.replace("\n", " ")
             if is_wrapped:
                 wrapped = tw.wrap(single_line, 80)
