@@ -4,13 +4,14 @@
 import bs4 as bs
 import textwrap as tw
 
+
 class ParseGazetteHTML:
     """parse patent gazette html"""
 
     na = '_na_'
     empty = '_empty_'
 
-    def to_number(self, html_name) -> str:
+    def to_identifier(self, html_name) -> str:
         ts = html_name.split('/')
         t1 = ts[-1].replace(".html", "")
         if t1.startswith("US") and "-" in t1:
@@ -63,9 +64,9 @@ class ParseGazetteHTML:
         return filed_by
 
     def basic_information(self, html, html_name):
-        """ returns : number, title, inventors & filed_by"""
+        """ returns : identifier, title, inventors & filed_by"""
 
-        number = self.to_number(html_name)
+        identifier = self.to_identifier(html_name)
 
         soup = bs.BeautifulSoup(html, features="lxml")
 
@@ -76,14 +77,14 @@ class ParseGazetteHTML:
         tds = soup.find_all(name="td", class_="table_data")
         filed_by = self.find_filed_by(tds)
 
-        return number, title, inventors, filed_by
+        return identifier, title, inventors, filed_by
 
     def exemplary_claim(self, html, html_name, is_wrapped=True):
-        """returns : number and exemplary claim, option to wrap or not"""
+        """returns : identifier and exemplary claim, option to wrap or not"""
 
         soup = bs.BeautifulSoup(html, features="lxml")
         claim_root = soup.find_all(name="div", class_=["claim_text_root"], recursive=True)
-        number = self.to_number(html_name)
+        identifier = self.to_identifier(html_name)
         claim = self.na
         if len(claim_root) == 1:
             claim, claim_str = '', ''
@@ -98,21 +99,21 @@ class ParseGazetteHTML:
                     claim += line + "\n"
             else:
                 claim = single_line
-        return number, claim
+        return identifier, claim
 
     def more_information(self, html, html_name):
-        """ returns : number, full_number & assigned_to"""
+        """ returns : identifier, long_id & assigned_to"""
 
         soup = bs.BeautifulSoup(html, features="lxml")
         tds = soup.find_all(name="td", class_="table_data")
-        number = self.to_number(html_name)
-        full_number, assigned_to = self.na, self.na
+        identifier = self.to_identifier(html_name)
+        long_id, assigned_to = self.na, self.na
         for td in tds:
             str_td = str(td)
             str_no_tags = str(td.string)
             if "<td class=\"table_data\"><b>" in str_td:
-                full_number = str_no_tags
+                long_id = str_no_tags
             if "Assigned to " in str_td:
                 assigned_to = str_no_tags.replace("Assigned to ", "")
 
-        return number, full_number, assigned_to
+        return identifier, long_id, assigned_to
