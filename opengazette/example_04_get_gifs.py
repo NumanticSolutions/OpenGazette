@@ -8,7 +8,7 @@ from zipped_patent_gazette import ZippedPatentGazette
 print('example 4 : get gifs\n')
 
 zpg = ZippedPatentGazette()
-path_zip, name_zip = '../data/', 'e-OG20240730_1524-5-subset-101_111.zip'
+path_zip, name_zip = '../data/', 'e-OG20240730_1524-5-subset-101_110.zip'
 archive = zpg.open_archive(path_zip, name_zip)
 htmls, gifs = zpg.quick_list(archive)
 

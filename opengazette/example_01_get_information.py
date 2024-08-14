@@ -9,7 +9,7 @@ from parse_gazette_html import ParseGazetteHTML
 print('example 1 : get information\n')
 
 zpg = ZippedPatentGazette()
-path_zip, name_zip = '../data/', 'e-OG20240730_1524-5-subset-101_111.zip'
+path_zip, name_zip = '../data/', 'e-OG20240730_1524-5-subset-101_110.zip'
 archive = zpg.open_archive(path_zip, name_zip)
 htmls, gifs = zpg.quick_list(archive)
 

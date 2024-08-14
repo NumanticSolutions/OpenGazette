@@ -13,7 +13,7 @@ from parse_gazette_html import ParseGazetteHTML
 print('example 2 : to tsv\n')
 
 zpg = ZippedPatentGazette()
-path_zip, name_zip = '../data/', 'e-OG20240730_1524-5-subset-101_111.zip'
+path_zip, name_zip = '../data/', 'e-OG20240730_1524-5-subset-101_110.zip'
 archive = zpg.open_archive(path_zip, name_zip)
 htmls, gifs = zpg.quick_list(archive)
 
@@ -21,6 +21,8 @@ field = ["identifier", "title", "inventors", "filed_by"]
 
 for html in htmls:
     print(html)
+
+print("len htmls :" + str(len(htmls)))
 
 # to uncompressed csv file
 #

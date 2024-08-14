@@ -1,8 +1,8 @@
 # OpenGazette
 
-Python tools to work with the [USPTO weekly Patent Gazettes](https://developer.uspto.gov/product/patent-official-gazettes-listing).
+Python tools to work with the [USPTO weekly Patent Official Gazettes](https://developer.uspto.gov/product/patent-official-gazettes-listing).
 
-An example use, is conversion of the zipped HTML + GIF assets of the gazette directly to a zipped tabular CSV file.
+An example use, is the conversion of a zipped HTML + GIF assets of the gazette directly to a zipped tabular CSV file.
 
 Additional uses include extraction of exemplary claims or corresponding drawings.
 

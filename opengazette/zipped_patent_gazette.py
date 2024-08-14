@@ -28,20 +28,16 @@ class ZippedPatentGazette:
                     gifs.append(name)
         return htmls, gifs
 
-    def generate_uuids(self, archive, htmls):
-        uuids, not_issued = ([], [])
+    def not_issued_indices(self, archive, htmls):
+        i = 0
+        indices = []
         for html in htmls:
-            ts = html.split('/')
-            uuid = ts[-1].replace(self.dot_html, "")
-            uuids.append(uuid)
-
             item = archive.read(html)
             s = item.decode()
-
             if 'Not Issued' in s:
-                not_issued.append(uuid)
-
-        return uuids, not_issued
+                indices.append(i)
+            i += 1
+        return indices
 
     def random_html(self, archive, htmls):
         rn = randrange(len(htmls))
