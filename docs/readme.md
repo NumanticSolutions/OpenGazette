@@ -1,5 +1,5 @@
 
-## Open Gazette : Docs
+## OpenGazette : Docs
 
 Notes and documents about Open Gazette.
 
