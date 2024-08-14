@@ -1,4 +1,6 @@
-# [2408] NMoroney
+# © 2024 Numantic Solutions LLC
+# MIT License
+# NMoroney
 #
 
 import pandas as pd
@@ -13,6 +15,7 @@ def zipped_csv_to_df(path_zip, name_zip):
     item = archive.read(name_csv)
     s = item.decode()
     csv = StringIO(s)
+    archive.close()
     return pd.read_csv(csv)
 
 

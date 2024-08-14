@@ -1,4 +1,6 @@
-# [2408] NMoroney
+# © 2024 Numantic Solutions LLC
+# MIT License
+# NMoroney
 #
 
 import csv
@@ -29,7 +31,7 @@ with open(name_csv, 'w', newline='') as file:
     writer.writerow(field)
     for i in range(len(htmls)):
         print(i, end=" ")
-        html = zpg.extract_html(archive, htmls[i])
+        html = zpg.read_html(archive, htmls[i])
         identifier, title, inventors, filed_by = parser.basic_information(html, htmls[i])
         writer.writerow([identifier, title, inventors, filed_by])
     print()
@@ -40,7 +42,7 @@ sio = StringIO()
 csv_write = csv.writer(sio)
 csv_write.writerow(field)
 for i in range(len(htmls)):
-    html = zpg.extract_html(archive, htmls[i])
+    html = zpg.read_html(archive, htmls[i])
     identifier, title, inventors, filed_by = parser.basic_information(html, htmls[i])
     csv_write.writerow([identifier, title, inventors, filed_by])
 

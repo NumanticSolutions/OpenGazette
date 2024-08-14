@@ -1,4 +1,6 @@
-# [2408] NMoroney
+# © 2024 Numantic Solutions LLC
+# MIT License
+# NMoroney
 #
 
 from zipped_patent_gazette import ZippedPatentGazette
@@ -13,7 +15,7 @@ htmls, gifs = zpg.quick_list(archive)
 
 idx = 3
 html_name = htmls[idx]
-html = zpg.extract_html(archive, htmls[idx])
+html = zpg.read_html(archive, htmls[idx])
 
 if True:
     print(html + "\n")

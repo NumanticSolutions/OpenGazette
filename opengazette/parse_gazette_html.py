@@ -1,4 +1,6 @@
-# [2408] NMoroney
+# © 2024 Numantic Solutions LLC
+# MIT License
+# NMoroney
 #
 
 import bs4 as bs

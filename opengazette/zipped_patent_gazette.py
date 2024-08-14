@@ -1,4 +1,6 @@
-# [2406] n8m
+# © 2024 Numantic Solutions LLC
+# MIT License
+# NMoroney
 #
 
 from zipfile import ZipFile
@@ -46,11 +48,17 @@ class ZippedPatentGazette:
         item = archive.read(htmls[rn])
         return item.decode()
 
-    def extract_html(self, archive, html) -> str:
+    def random_gif(self, archive, gifs):
+        rn = randrange(len(gifs))
+        return archive.read(gifs[rn])
+
+    def read_html(self, archive, html) -> str:
         item = archive.read(html)
         s = item.decode()
         return s
 
+    def read_gif(self, archive, gif):
+        return archive.read(gif)
     def match_gifs_with_htmls(self, htmls, gifs):
         fs = htmls.copy()
         fs.extend(gifs)
