@@ -59,6 +59,7 @@ class ZippedPatentGazette:
 
     def read_gif(self, archive, gif):
         return archive.read(gif)
+
     def match_gifs_with_htmls(self, htmls, gifs):
         fs = htmls.copy()
         fs.extend(gifs)
