@@ -1,5 +1,5 @@
 
-## Data
+## OpenGazette : Data
 
 Subset or partial data, extracted from the a full patent gazette.
 
