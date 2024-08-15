@@ -19,11 +19,12 @@ This repository is an active project. Expect steady revisions and extensions, su
 * extend HTML parsing to additional fields, such as [CPC classes](https://www.uspto.gov/web/patents/classification/cpc/html/cpc.html)
 * better document specific fields, such as the identfier
 * analysis for why using ```filed_by``` versus ```assigned_to``` when generating CSV's
+* pipreqs a requirements file (or use current Anaconda ```[base]``` environment)
 * include some minimal testing using both subset and full gazette data
 * note about the ```not_issued``` patents in the gazettes
 * post-processing tools for formatting query results
 * comparsion of methods to query exemplary claims
-* tools to post-process examplary claims
+* tools to post-process exemplary claims
 * comparison of methods to query patent drawings
 * additional features and functionality to add
 
