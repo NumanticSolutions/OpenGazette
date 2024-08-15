@@ -14,7 +14,7 @@ The [source](/opengazette) includes simple examples and stand alone command line
 
 ---
 
-This repository is an active project. Expect steady revisions and extensions, such as :
+This repository is an active project. Anticipated revisions and extensions include :
 
 * extend HTML parsing to additional fields, such as [CPC classes](https://www.uspto.gov/web/patents/classification/cpc/html/cpc.html)
 * better document specific fields, such as the identfier
