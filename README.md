@@ -4,7 +4,7 @@ Python tools to work with the [USPTO weekly Patent Official Gazettes](https://de
 
 An example use, is [the conversion](opengazette/gazette_to_csv.py) of a zipped HTML + GIF assets of the gazette directly to a zipped tabular CSV file.
 
-Additional uses include extraction of the exemplary claims or corresponding drawings.
+Additional uses include extraction of the exemplary claims and/or corresponding drawings.
 
 The repository includes some light-weight [example data](data/) and [documentation](docs/) to get started.
 
