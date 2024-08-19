@@ -16,10 +16,10 @@ The [source](/opengazette) includes simple examples and stand alone command line
 
 This repository is an active project. Anticipated revisions and extensions include :
 
-* extend HTML parsing to additional fields, such as [CPC classes](https://www.uspto.gov/web/patents/classification/cpc/html/cpc.html)
 * better document specific fields, such as the identfier
 * analysis for why using ```filed_by``` versus ```assigned_to``` when generating CSV's
 * pipreqs a requirements file (or use current Anaconda ```[base]``` environment)
+* extend HTML parsing to additional fields, such as [CPC classes](https://www.uspto.gov/web/patents/classification/cpc/html/cpc.html)
 * include some minimal testing using both subset and full gazette data
 * note about the ```not_issued``` patents in the gazettes
 * post-processing tools for formatting query results
